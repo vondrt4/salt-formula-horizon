@@ -95,6 +95,27 @@ horizon_apache_port_config:
   - require:
     - pkg: horizon_packages
 
+#vondrt4: Someone do this also for RedHat:
+
+horizon_apache_config_enable:
+  cmd.run:
+  - name: "a2enconf {{ server.apache_config_short }}"
+  - creates: /etc/apache2/conf-enabled/{{ server.apache_config }}.conf
+  - require:
+    - pkg: horizon_packages
+    - file: horizon_apache_config
+  - watch_in:
+    - service: horizon_services
+
+apache_wsgi_enable:
+  cmd.run:
+  - name: "a2enmod wsgi"
+  - creates: /etc/apache2/mods-enabled/wsgi.load
+  - require:
+    - pkg: horizon_packages
+  - watch_in:
+    - service: horizon_services
+
 {%- endif %}
 
 horizon_apache_config:

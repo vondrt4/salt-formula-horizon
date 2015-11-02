@@ -1,16 +1,17 @@
 {% set server = salt['grains.filter_by']({
     'Debian': {
-        'pkgs': ['openstack-dashboard', 'python-lesscpy', 'python-memcache'],
+        'pkgs': ['openstack-dashboard', 'python-lesscpy', 'python-memcache', 'apache2'],
         'ssl_pkgs': ['openstack-dashboard'],
         'service': 'apache2',
         'config': '/etc/openstack-dashboard/local_settings.py',
         'apache_config': '/etc/apache2/conf-available/openstack-dashboard.conf',
+        'apache_config_short': 'openstack-dashboard',
         'certs_dir': '/etc/ssl/certs',
         'private_dir': '/etc/ssl/private',
         'cache': {'host': '127.0.0.1', 'port': 11211}
     },
     'RedHat': {
-        'pkgs': ['openstack-dashboard', 'python-memcached'],
+        'pkgs': ['openstack-dashboard', 'python-memcached', 'apache'],
         'ssl_pkgs': ['mod_ssl'],
         'service': 'httpd',
         'config': '/etc/openstack-dashboard/local_settings',
