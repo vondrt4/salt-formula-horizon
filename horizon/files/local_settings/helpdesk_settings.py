@@ -2,6 +2,8 @@ import os
 from django.utils.translation import ugettext_lazy as _
 from openstack_dashboard import exceptions
 
+WEBROOT = '/horizon/'
+
 {%- from "horizon/map.jinja" import server with context %}
 {%- set app = salt['pillar.get']('horizon:server:app:'+app_name) %}
 
