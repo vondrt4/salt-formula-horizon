@@ -12,6 +12,9 @@ parameters:
   horizon:
     server:
       enabled: true
+      vhost:
+        name: horizon.example
+        address: 127.0.0.1
       version: ${_param:horizon_version}
       secret_key: ${_param:horizon_secret_key}
       session:
