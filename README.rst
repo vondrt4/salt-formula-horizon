@@ -395,6 +395,9 @@ API versions override
               address: https://github.com/openstack/horizon.git
               rev: stable/havana
 
+Note: Keystone v3 domains not a good idea for ever - abandoned by devs. Policy files don't work, particularly cloud_admin:
+https://blueprints.launchpad.net/horizon/+spec/domain-based-rbac
+
 Control dashboard behaviour
 
 .. code-block:: yaml

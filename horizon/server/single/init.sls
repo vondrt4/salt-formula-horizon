@@ -150,7 +150,7 @@ horizon_log_dir:
 horizon_keystone_policy:
   file.managed:
   - name: /usr/share/openstack-dashboard/openstack_dashboard/conf/keystone_policy.json
-  {%- if server.get('api_versions', {}).identity == '3' %}
+  {%- if server.get('api_versions', {}).identity == 3 %}
   - source: salt://horizon/files/policy/{{ server.version }}-keystone-v3.json
   {%- else %}
   - source: salt://horizon/files/policy/{{ server.version }}-keystone-v2.json
