@@ -19,7 +19,7 @@ parameters:
         engine: memcached
         prefix: 'CACHE_HORIZON'
         members:
-        - host: ${_param:single_address}
+        - host: 127.0.0.1
           port: 11211
       wsgi:
         processes: 3
