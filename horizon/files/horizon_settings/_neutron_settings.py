@@ -17,8 +17,9 @@
 {%- set neutron_data = app.get('openstack_neutron_network', {}) %}
 
 OPENSTACK_NEUTRON_NETWORK = {
-    'enable_lb': True,
-    'enable_firewall': False,
+    'enable_router': True,
+    'enable_distributed_router': True,
+    'enable_ha_router': False,
     'enable_quotas': True,
     'enable_security_group': True,
     'enable_vpn': False,
