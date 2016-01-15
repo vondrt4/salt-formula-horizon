@@ -29,6 +29,11 @@ OPENSTACK_HYPERVISOR_FEATURES = {
 #     'reverse': False,
 # }
 
+CREATE_INSTANCE_FLAVOR_SORT = {
+     'key':'id',
+     'reverse': False,
+}
+
 FLAVOR_EXTRA_KEYS = {
     'flavor_keys': [
         ('quota:read_bytes_sec', _('Quota: Read bytes')),

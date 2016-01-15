@@ -14,6 +14,7 @@
 
 # Turn off browser autocompletion for the login form if so desired.
 # HORIZON_CONFIG["password_autocomplete"] = "off"
+HORIZON_CONFIG["password_autocomplete"] = "on"
 
 # The Horizon Policy Enforcement engine uses these values to load per service
 # policy rule files. The content of these files should match the files the
