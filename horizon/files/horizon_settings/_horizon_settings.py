@@ -16,6 +16,8 @@
 # HORIZON_CONFIG["password_autocomplete"] = "off"
 HORIZON_CONFIG["password_autocomplete"] = "on"
 
+SESSION_TIMEOUT = 86400
+
 # The Horizon Policy Enforcement engine uses these values to load per service
 # policy rule files. The content of these files should match the files the
 # OpenStack services are using to determine role based access control in the
