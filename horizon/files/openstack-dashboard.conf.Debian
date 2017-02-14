@@ -29,6 +29,9 @@
   LogFormat "{{ server.apache_log_format }}" horizon
   ErrorLog "{{ server.apache_log_dir }}/{{ server.apache_log_filename }}_error.log"
   CustomLog "{{ server.apache_log_dir }}/{{ server.apache_log_filename }}_access.log" horizon
+  {%- if pillar.get('nginx', {}).get('server', {}).get('site', {}).get('nginx_proxy_openstack_web', {}).get('ssl', {}).get('enabled', False) %}
+  SetEnvIf X-Forwarded-Proto https HTTPS=1
+  {%- endif %}
 
 </VirtualHost>
 
