@@ -22,7 +22,7 @@ horizon:
       engine: keystone
       port: 5000
       host: 127.0.0.1
-      encryption: encryption
+      encryption: ssl
       api_version: 2
     websso:
       login_url: "WEBROOT + 'auth/login/'"
