@@ -24,6 +24,7 @@ horizon:
       host: 127.0.0.1
       encryption: ssl
       api_version: 2
+      endpoint_type: publicURL
     websso:
       login_url: "WEBROOT + 'auth/login/'"
       logout_url: "WEBROOT + 'auth/logout/'"
