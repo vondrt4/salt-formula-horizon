@@ -32,6 +32,11 @@ horizon:
       websso_choices:
         - saml2
         - oidc
+    horizon_config:
+      password_autocomplete: off
+    openstack_neutron_network:
+      enable_fip_topology_check: False
+
 haproxy:
   proxy:
     listens:
