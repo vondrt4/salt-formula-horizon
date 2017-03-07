@@ -26,11 +26,12 @@ Simplest horizon setup
           host: '127.0.0.1'
           port: 11211
           prefix: 'CACHE_HORIZON'
+        api_versions:
+          identity: 2
         identity:
           engine: 'keystone'
           host: '127.0.0.1'
           port: 5000
-          api_version: 2
         mail:
           host: '127.0.0.1'
 
@@ -64,11 +65,12 @@ Horizon package setup with SSL
           host: '127.0.0.1'
           port: 11211
           prefix: 'CACHE_HORIZON'
+        api_versions:
+          identity: 2
         identity:
           engine: 'keystone'
           host: '127.0.0.1'
           port: 5000
-          api_version: 2
         mail:
           host: '127.0.0.1'
 
@@ -86,11 +88,12 @@ Multi-regional horizon setup
           host: '127.0.0.1'
           port: 11211
           prefix: 'CACHE_HORIZON'
+        api_versions:
+          identity: 2
         identity:
           engine: 'keystone'
           host: '127.0.0.1'
           port: 5000
-          api_version: 2
         mail:
           host: '127.0.0.1'
         regions:
@@ -224,11 +227,12 @@ Simple Horizon setup from git repository
               host: '127.0.0.1'
               port: 11211
               prefix: 'CACHE_DEFAULT'
+            api_versions:
+              identity: 2
             identity:
               engine: 'keystone'
               host: '127.0.0.1'
               port: 5000
-              api_version: 2
             mail:
               host: '127.0.0.1'
 
@@ -264,11 +268,12 @@ Themed multisite setup
               host: '127.0.0.1'
               port: 11211
               prefix: 'CACHE_SITE1'
+            api_versions:
+              identity: 2
             identity:
               engine: 'keystone'
               host: '127.0.0.1'
               port: 5000
-              api_version: 2
             mail:
               host: '127.0.0.1'
           openstack2:
@@ -302,11 +307,12 @@ Themed multisite setup
               host: '127.0.0.1'
               port: 11211
               prefix: 'CACHE_SITE2'
+            api_versions:
+              identity: 3
             identity:
               engine: 'keystone'
               host: '127.0.0.1'
               port: 5000
-              api_version: 3
             mail:
               host: '127.0.0.1'
 
