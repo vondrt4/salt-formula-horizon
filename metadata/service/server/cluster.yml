@@ -6,6 +6,7 @@ parameters:
   _param:
     horizon_version: kilo
     horizon_api_version: 3
+    horizon_identity_endpoint_type: internalURL
   horizon:
     server:
       enabled: true
@@ -33,6 +34,7 @@ parameters:
         host: ${_param:cluster_vip_address}
         port: 5000
         api_version: 2
+        endpoint_type: ${_param:horizon_identity_endpoint_type}
   haproxy:
     proxy:
       listens:

@@ -57,7 +57,7 @@ OPENSTACK_SSL_NO_VERIFY = True
 # OPENSTACK_ENDPOINT_TYPE specifies the endpoint type to use for the endpoints
 # in the Keystone service catalog. Use this setting when Horizon is running
 # external to the OpenStack environment. The default is 'publicURL'.
-OPENSTACK_ENDPOINT_TYPE = "publicURL"
+OPENSTACK_ENDPOINT_TYPE = "{{ app.identity.get('endpoint_type', 'publicURL') }}"
 
 # SECONDARY_ENDPOINT_TYPE specifies the fallback endpoint type to use in the
 # case that OPENSTACK_ENDPOINT_TYPE is not present in the endpoints

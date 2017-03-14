@@ -26,6 +26,7 @@ horizon:
       port: 5000
       api_version: 2
       encryption: ssl
+      endpoint_type: publicURL
     websso:
       login_url: "WEBROOT + 'auth/login/'"
       logout_url: "WEBROOT + 'auth/logout/'"

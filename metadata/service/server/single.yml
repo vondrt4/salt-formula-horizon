@@ -8,6 +8,7 @@ parameters:
     horizon_identity_host: localhost
     horizon_identity_version: 3
     horizon_identity_encryption: none
+    horizon_identity_endpoint_type: internalURL
   horizon:
     server:
       enabled: true
@@ -34,3 +35,4 @@ parameters:
         host: ${_param:horizon_identity_host}
         encryption: ${_param:horizon_identity_encryption}
         api_version: ${_param:horizon_identity_version}
+        endpoint_type: ${_param:horizon_identity_endpoint_type}
