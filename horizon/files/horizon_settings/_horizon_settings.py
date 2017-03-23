@@ -30,6 +30,7 @@ SESSION_TIMEOUT = {{ server.session_timeout }}
 POLICY_FILES = {
     'identity': 'keystone_policy.json',
     'compute': 'nova_policy.json',
+    'network': 'neutron_policy.json',
     'image': 'glance_policy.json',
     'volume': 'cinder_policy.json'
 }
