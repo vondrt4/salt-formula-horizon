@@ -204,3 +204,4 @@ RAVEN_CONFIG = {
 {%- endif %}
 
 SITE_BRANDING = '{{ app.get('branding', 'OpenStack Dashboard') }}'
+SESSION_COOKIE_HTTPONLY = {{ app.get('session_cookie_httponly', True) }}
