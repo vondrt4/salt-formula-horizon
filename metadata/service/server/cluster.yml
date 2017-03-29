@@ -5,7 +5,7 @@ classes:
 parameters:
   _param:
     horizon_version: kilo
-    horizon_api_version: 3
+    horizon_identity_version: 3
     horizon_identity_endpoint_type: internalURL
   horizon:
     server:
@@ -22,18 +22,19 @@ parameters:
       cache:
         engine: memcached
         prefix: 'CACHE_HORIZON'
-        members: 
+        members:
         - host: ${_param:cluster_node01_address}
           port: 11211
         - host: ${_param:cluster_node02_address}
           port: 11211
         - host: ${_param:cluster_node03_address}
           port: 11211
+      api_versions:
+        identity: ${_param:horizon_identity_version}
       identity:
         engine: keystone
         host: ${_param:cluster_vip_address}
         port: 5000
-        api_version: 2
         endpoint_type: ${_param:horizon_identity_endpoint_type}
   haproxy:
     proxy:

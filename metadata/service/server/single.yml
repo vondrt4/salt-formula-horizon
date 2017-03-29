@@ -29,10 +29,11 @@ parameters:
         members:
         - host: ${_param:single_address}
           port: 11211
+      api_versions:
+        identity: ${_param:horizon_identity_version}
       identity:
         engine: keystone
         port: 5000
         host: ${_param:horizon_identity_host}
         encryption: ${_param:horizon_identity_encryption}
-        api_version: ${_param:horizon_identity_version}
         endpoint_type: ${_param:horizon_identity_endpoint_type}
