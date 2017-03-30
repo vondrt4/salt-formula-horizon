@@ -32,7 +32,9 @@ POLICY_FILES = {
     'compute': 'nova_policy.json',
     'network': 'neutron_policy.json',
     'image': 'glance_policy.json',
-    'volume': 'cinder_policy.json'
+    'volume': 'cinder_policy.json',
+    'telemetry': 'ceilometer_policy.json',
+    'orchestration': 'heat_policy.json'
 }
 
 LOGGING = {
