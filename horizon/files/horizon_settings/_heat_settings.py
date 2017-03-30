@@ -6,6 +6,6 @@
 {%- set app = server %}
 {%- endif %}
 
-{%- if app.get('openstack_heat_stack', false) %}
-OPENSTACK_HEAT_STACK = {'enable_user_pass': True}
+{% if app.openstack_heat_stack is defined %}
+OPENSTACK_HEAT_STACK = {'enable_user_pass': {% if app.openstack_heat_stack %}True{% else %}False{% endif %}}
 {%- endif %}
