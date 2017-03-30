@@ -7,5 +7,9 @@
 {%- endif %}
 
 {% if app.openstack_heat_stack is defined %}
-OPENSTACK_HEAT_STACK = {'enable_user_pass': {% if app.openstack_heat_stack %}True{% else %}False{% endif %}}
+OPENSTACK_HEAT_STACK = {
+{%- for key, value in app.openstack_heat_stack.iteritems() %}
+    "{{ key }}": {{ value }}{% if not loop.last %},{% endif %}
+{%- endfor %}
+}
 {%- endif %}
