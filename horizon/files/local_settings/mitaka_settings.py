@@ -62,4 +62,5 @@ INSTALLED_APPS = (
 {% include "horizon/files/horizon_settings/_nova_settings.py" %}
 {% include "horizon/files/horizon_settings/_glance_settings.py" %}
 {% include "horizon/files/horizon_settings/_neutron_settings.py" %}
+{% include "horizon/files/horizon_settings/_heat_settings.py" %}
 {% include "horizon/files/horizon_settings/_websso_settings.py" %}
