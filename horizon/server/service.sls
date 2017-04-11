@@ -18,9 +18,9 @@ horizon_config:
   - name: {{ server.config }}
   - source: salt://horizon/files/local_settings/{{ server.version }}_settings.py
   - template: jinja
-  - mode: 644
+  - mode: 640
   - user: root
-  - group: root
+  - group: horizon
   - require:
     - pkg: horizon_packages
 

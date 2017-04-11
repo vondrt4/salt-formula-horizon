@@ -1,15 +1,15 @@
 
-=======
-Horizon 
-=======
+===============
+Horizon Formula
+===============
 
-Horizon is the canonical implementation of OpenStack’s Dashboard, which provides a web based user interface to OpenStack services including Nova, Swift, Keystone, etc.
+Horizon is the canonical implementation of OpenStack’s Dashboard, which
+provides a web based user interface to OpenStack services including Nova,
+Swift, Keystone, etc.
 
-Sample pillars
+
+Sample Pillars
 ==============
-
-Packaged version of horizon
----------------------------
 
 Simplest horizon setup
 
@@ -45,6 +45,17 @@ Simple branded horizon
         branding: 'OpenStack Company Dashboard'
         default_dashboard: 'admin'
         help_url: 'http://doc.domain.com'
+
+
+Horizon with enabled SSL security (when SSL is realised by proxy)
+
+.. code-block:: yaml
+
+    horizon:
+      server:
+        enabled: True
+        secure: True
+
 
 Horizon package setup with SSL
 
@@ -372,11 +383,13 @@ Enable WebSSO feature
             - saml2
             - oidc
 
-Read more
-=========
+
+More Information
+================
 
 * https://github.com/openstack/horizon
 * http://dijks.wordpress.com/2012/07/06/how-to-change-screen-resolution-of-novnc-client-in-openstack-essex-dashboard-nova-horizon/
+
 
 Documentation and Bugs
 ======================
