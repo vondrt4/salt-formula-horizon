@@ -208,3 +208,4 @@ SITE_BRANDING = '{{ app.get('branding', 'OpenStack Dashboard') }}'
 SITE_DETAILS = "{{ app.site_details }}"
 {%- endif %}
 SESSION_COOKIE_HTTPONLY = {{ app.get('session_cookie_httponly', True) }}
+BOOT_ONLY_FROM_VOLUME = {{ app.get('boot_only_from_volume', True) }}
