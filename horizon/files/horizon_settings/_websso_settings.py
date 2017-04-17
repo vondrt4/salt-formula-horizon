@@ -20,5 +20,5 @@ WEBSSO_CHOICES = (
     {%- endif %}
 )
 
-WEBSSO_INITIAL_CHOICE = "credentials"
+WEBSSO_INITIAL_CHOICE = "{{ server.websso.get('websso_initial_choice', 'credentials') }}"
 {%- endif %}
