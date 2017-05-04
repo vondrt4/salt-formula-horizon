@@ -85,6 +85,18 @@ Horizon package setup with SSL
         mail:
           host: '127.0.0.1'
 
+Horizon with custom SESSION_ENGINE (default is "signed_cookies", valid options are: "signed_cookies", "cache", "file") and SESSION_TIMEOUT
+
+.. code-block:: yaml
+
+    horizon:
+      server:
+        enabled: True
+        secure: True
+        session:
+          engine: 'cache'
+          timeout: 43200
+
 Multi-regional horizon setup
 
 .. code-block:: yaml
