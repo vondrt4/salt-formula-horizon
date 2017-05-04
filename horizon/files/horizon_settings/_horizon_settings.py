@@ -20,9 +20,8 @@
 # OpenStack services are using to determine role based access control in the
 # target installation.
 
-{%- if server.session_timeout is defined %}
-SESSION_TIMEOUT = {{ server.session_timeout }}
-{%- endif %}
+SESSION_TIMEOUT = {{ server.get('session', {}).get('timeout', 3600) }}
+SESSION_ENGINE = "django.contrib.sessions.backends.{{ server.get('session', {}).get('engine', 'signed_cookies') }}"
 
 # Path to directory containing policy.json files
 #POLICY_FILES_PATH = os.path.join(ROOT_PATH, "conf")
