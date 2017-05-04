@@ -26,6 +26,10 @@ LOCAL_PATH = os.path.dirname(os.path.abspath(__file__))
 
 SECRET_KEY = '{{ app.secret_key }}'
 
+{% if app.cache.get('engine', 'signed_cookies') == 'memcached' %}
+SESSION_ENGINE = 'django.contrib.sessions.backends.cache'
+{% endif %}
+
 CACHES = {
     'default': {
 
