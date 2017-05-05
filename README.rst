@@ -46,6 +46,44 @@ Simple branded horizon
         default_dashboard: 'admin'
         help_url: 'http://doc.domain.com'
 
+Horizon with policy files metadata. With source mine you can obtain real time policy file state from targeted node (OpenStack control node), provided you have policy file published to specified grain key. Source file will obtain static policy definition from formula files directory.
+
+.. code-block:: yaml
+
+    horizon:
+      server:
+        enabled: true
+        policy:
+          identity:
+            source: mine
+            host: ctl01.my-domain.local
+            name: keystone_policy.json
+            grain_name: keystone_policy
+            enabled: true
+          compute:
+            source: file
+            name: nova_policy.json
+            enabled: true
+          network:
+            source: file
+            name: neutron_policy.json
+            enabled: true
+          image:
+            source: file
+            name: glance_policy.json
+            enabled: true
+          volume:
+            source: file
+            name: cinder_policy.json
+            enabled: true
+          telemetry:
+            source: file
+            name: ceilometer_policy.json
+            enabled: true
+          orchestration:
+            source: file
+            name: heat_policy.json
+            enabled: true
 
 Horizon with enabled SSL security (when SSL is realised by proxy)
 
