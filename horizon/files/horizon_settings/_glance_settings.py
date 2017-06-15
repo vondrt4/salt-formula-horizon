@@ -35,3 +35,6 @@ IMAGE_CUSTOM_PROPERTY_TITLES = {
     "project_id": _("Project ID"),
     "image_type": _("Image Type")
 }
+
+HORIZON_IMAGES_UPLOAD_MODE = "legacy"
+IMAGES_ALLOW_LOCATION = True

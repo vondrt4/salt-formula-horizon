@@ -209,3 +209,7 @@ SITE_DETAILS = "{{ app.site_details }}"
 {%- endif %}
 SESSION_COOKIE_HTTPONLY = {{ app.get('session_cookie_httponly', True) }}
 BOOT_ONLY_FROM_VOLUME = {{ app.get('boot_only_from_volume', True) }}
+
+REST_API_REQUIRED_SETTINGS = ['OPENSTACK_HYPERVISOR_FEATURES',
+                             'LAUNCH_INSTANCE_DEFAULTS',
+                             'OPENSTACK_IMAGE_FORMATS']
