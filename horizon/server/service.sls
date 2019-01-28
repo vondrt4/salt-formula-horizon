@@ -87,12 +87,14 @@ apache_enable_wsgi:
   apache_module.enable:
     - name: wsgi
 
+{# z nejakeho duvodu nefunguje modul apache_conf
 enable_horizon_apache_config:
   apache_conf.enable:
   - name: openstack-dashboard
   - require:
     - file: horizon_apache_config
     - apache_module: apache_enable_wsgi
+#}
 {%- endif %}
 
 horizon_services:

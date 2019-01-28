@@ -57,6 +57,7 @@ INSTALLED_APPS = (
     {%- endif %}
 )
 
+
 {% include "horizon/files/horizon_settings/_local_settings.py" %}
 {% include "horizon/files/horizon_settings/_horizon_settings.py" %}
 {% include "horizon/files/horizon_settings/_keystone_settings.py" %}

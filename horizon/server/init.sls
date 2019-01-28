@@ -12,4 +12,10 @@ include:
 {%- if pillar.horizon.server.ssl is defined %}
 - horizon.server.ssl
 {%- endif %}
+{%- if pillar.horizon.server.sahara_dashboard is defined %}
+- horizon.server.sahara_dashboard
+{%- endif %}
+{%- if pillar.horizon.server.manila_ui is defined %}
+- horizon.server.manila_ui
+{%- endif %}
 {%- endif %}

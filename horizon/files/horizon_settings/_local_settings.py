@@ -28,8 +28,6 @@ LOCAL_PATH = os.path.dirname(os.path.abspath(__file__))
 
 SECRET_KEY = '{{ app.secret_key }}'
 
-SESSION_ENGINE = 'django.contrib.sessions.backends.cache'
-
 CACHES = {
     'default': {
 
@@ -217,3 +215,4 @@ BOOT_ONLY_FROM_VOLUME = {{ app.get('boot_only_from_volume', True) }}
 REST_API_REQUIRED_SETTINGS = ['OPENSTACK_HYPERVISOR_FEATURES',
                              'LAUNCH_INSTANCE_DEFAULTS',
                              'OPENSTACK_IMAGE_FORMATS']
+
