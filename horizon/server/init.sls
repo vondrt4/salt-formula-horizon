@@ -18,4 +18,7 @@ include:
 {%- if pillar.horizon.server.manila_ui is defined %}
 - horizon.server.manila_ui
 {%- endif %}
+{%- if pillar.horizon.server.lbaas_v2_panel is defined %}
+- horizon.server.lbaas_v2_panel
+{%- endif %}
 {%- endif %}
