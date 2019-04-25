@@ -13,11 +13,23 @@
 # The OPENSTACK_NEUTRON_NETWORK settings can be used to enable optional
 # services provided by neutron. Options currenly available are load
 # balancer service, security groups, quotas, VPN service.
+
+{%- set neutron_data = app.get('openstack_neutron_network', {}) %}
+
 OPENSTACK_NEUTRON_NETWORK = {
     'enable_router': True,
     'enable_distributed_router': True,
     'enable_ha_router': False,
     'enable_quotas': True,
+    'enable_security_group': True,
+    'enable_vpn': False,
+    # The profile_support option is used to detect if an externa lrouter can be
+    # configured via the dashboard. When using specific plugins the
+    # profile_support can be turned on if needed.
+    'profile_support': None,
+    'enable_fip_topology_check': {{ neutron_data.get('enable_fip_topology_check', True) }},
+
+    #'profile_support': 'cisco',
 }
 
 # 'direction' should not be specified for all_tcp/udp/icmp.

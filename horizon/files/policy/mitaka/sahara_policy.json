@@ -1,0 +1,72 @@
+{
+    "context_is_admin": "role:admin",
+    "default": "role:BigData",
+
+    "data-processing:clusters:get_all": "role:BigData",
+    "data-processing:clusters:create": "role:BigData",
+    "data-processing:clusters:scale": "role:BigData",
+    "data-processing:clusters:get": "role:BigData",
+    "data-processing:clusters:delete": "role:BigData",
+    "data-processing:clusters:modify": "role:BigData",
+
+    "data-processing:cluster-templates:get_all": "role:BigData",
+    "data-processing:cluster-templates:create": "role:BigData",
+    "data-processing:cluster-templates:get": "role:BigData",
+    "data-processing:cluster-templates:modify": "role:BigData",
+    "data-processing:cluster-templates:delete": "role:BigData",
+
+    "data-processing:node-group-templates:get_all": "role:BigData",
+    "data-processing:node-group-templates:create": "role:BigData",
+    "data-processing:node-group-templates:get": "role:BigData",
+    "data-processing:node-group-templates:modify": "role:BigData",
+    "data-processing:node-group-templates:delete": "role:BigData",
+
+    "data-processing:plugins:get_all": "role:BigData",
+    "data-processing:plugins:get": "role:BigData",
+    "data-processing:plugins:get_version": "role:BigData",
+    "data-processing:plugins:convert_config": "role:BigData",
+
+    "data-processing:images:get_all": "role:BigData",
+    "data-processing:images:get": "role:BigData",
+    "data-processing:images:register": "role:BigData",
+    "data-processing:images:unregister": "role:BigData",
+    "data-processing:images:add_tags": "role:BigData",
+    "data-processing:images:remove_tags": "role:BigData",
+
+    "data-processing:job-executions:get_all": "role:BigData",
+    "data-processing:job-executions:get": "role:BigData",
+    "data-processing:job-executions:refresh_status": "role:BigData",
+    "data-processing:job-executions:cancel": "role:BigData",
+    "data-processing:job-executions:delete": "role:BigData",
+    "data-processing:job-executions:modify": "role:BigData",
+
+    "data-processing:data-sources:get_all": "role:BigData",
+    "data-processing:data-sources:get": "role:BigData",
+    "data-processing:data-sources:register": "role:BigData",
+    "data-processing:data-sources:delete": "role:BigData",
+    "data-processing:data-sources:modify": "role:BigData",
+
+    "data-processing:jobs:get_all": "role:BigData",
+    "data-processing:jobs:create": "role:BigData",
+    "data-processing:jobs:get": "role:BigData",
+    "data-processing:jobs:delete": "role:BigData",
+    "data-processing:jobs:get_config_hints": "role:BigData",
+    "data-processing:jobs:execute": "role:BigData",
+    "data-processing:jobs:modify": "role:BigData",
+
+    "data-processing:job-binaries:get_all": "role:BigData",
+    "data-processing:job-binaries:create": "role:BigData",
+    "data-processing:job-binaries:get": "role:BigData",
+    "data-processing:job-binaries:delete": "role:BigData",
+    "data-processing:job-binaries:get_data": "role:BigData",
+    "data-processing:job-binaries:modify": "role:BigData",
+
+    "data-processing:job-binary-internals:get_all": "role:BigData",
+    "data-processing:job-binary-internals:create": "role:BigData",
+    "data-processing:job-binary-internals:get": "role:BigData",
+    "data-processing:job-binary-internals:delete": "role:BigData",
+    "data-processing:job-binary-internals:get_data": "role:BigData",
+    "data-processing:job-binary-internals:modify": "role:BigData",
+
+    "data-processing:job-types:get_all": "role:BigData"
+}

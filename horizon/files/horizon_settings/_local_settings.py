@@ -22,6 +22,8 @@ SESSION_COOKIE_SECURE = True
 {%- endif %}
 {%- endif %}
 
+AUTHENTICATION_URLS = ['openstack_auth.urls']
+
 LOCAL_PATH = os.path.dirname(os.path.abspath(__file__))
 
 SECRET_KEY = '{{ app.secret_key }}'
@@ -30,6 +32,12 @@ SESSION_ENGINE = 'django.contrib.sessions.backends.cache'
 
 CACHES = {
     'default': {
+
+        'OPTIONS': {
+                'DEAD_RETRY': 1,
+                'SERVER_RETRIES': 1,
+                'SOCKET_TIMEOUT': 1,
+        },
         'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
         {%- if app.cache.members is defined %}
         'LOCATION': "{%- for member in app.cache.members %}{{ member.host }}:{{ member.port }}{% if not loop.last %};{% endif %}{%- endfor %}"
@@ -78,6 +86,12 @@ UENC_PORT = '{{ app.uenc_api.port }}'
 OPENSTACK_CONTROL_NODES = {{ app.control_nodes|python }}
 {%- endif %}
 
+{%- if app.jenkins_api is defined %}
+HORIZON_JENKINS_URL = "{{ app.jenkins_api.url }}"
+HORIZON_JENKINS_USERNAME = "{{ app.jenkins_api.user }}"
+HORIZON_JENKINS_PASSWORD = "{{ app.jenkins_api.password }}"
+{%- endif %}
+
 {%- if app.sensu_api is defined %}
 {%- if app.sensu_api.host is defined %}
 SENSU_HOST = '{{ app.sensu_api.host }}'
@@ -109,6 +123,16 @@ ROBOTICE_PORT = '{{ app.robotice_api.port }}'
 CSB_HOST = '{{ app.csb_api.host }}'
 CSB_PORT = '{{ app.csb_api.port }}'
 AUTHENTICATION_BACKENDS = ('csb_auth.backend.CSBackend',)
+{%- endif %}
+
+{%- if app.murano_api is defined %}
+MURANO_API_URL = "{{ app.murano_api.get('protocol', 'http') }}://{{ app.murano_api.host }}:{{ app.murano_api.port }}"
+MURANO_API_INSECURE = "{{ app.murano_api.get('insecure', 'False') }}"
+SESSION_ENGINE = "django.contrib.sessions.backends.cache"
+# TODO(majklk) make this configurable
+MURANO_REPO_URL = 'http://storage.apps.openstack.org/'
+# this folder muset exists before start
+#METADATA_CACHE_DIR = '/var/cache/muranodashboard-cache'
 {%- endif %}
 
 {%- if app.helpdesk_api is defined %}
@@ -143,7 +167,7 @@ API_MASK_PROTOCOL = '{{ plugin.mask_protocol }}'
 {%- if plugin.metric.engine == "graphite" %}
 GRAPHITE_HOST = "{{ plugin.metric.host }}"
 GRAPHITE_PORT = "{{ plugin.metric.port }}"
-GRAPHITE_ENDPOINT = 'http://%s:%s' % (GRAPHITE_HOST, GRAPHITE_PORT)
+GRAPHITE_ENDPOINT = 'http://%s:%s/' % (GRAPHITE_HOST, GRAPHITE_PORT)
 {%- endif %}
 {%- endif %}
 
@@ -171,6 +195,10 @@ STATICFILES_DIRS.append(('dashboard/js/', xstatic.main.XStatic(contrail).base_di
 
 {%- endif %}
 
+{%- if plugin.urls is defined %}
+AUTHENTICATION_URLS += {{ plugin.urls|python }}
+{%- endif %}
+
 {%- endfor %}
 
 {%- if app.logging is defined %}
@@ -180,3 +208,13 @@ RAVEN_CONFIG = {
 {%- endif %}
 
 SITE_BRANDING = '{{ app.get('branding', 'OpenStack Dashboard') }}'
+{%- if app.site_details is defined %}
+SITE_DETAILS = "{{ app.site_details }}"
+{%- endif %}
+SESSION_COOKIE_HTTPONLY = {{ app.get('session_cookie_httponly', True) }}
+BOOT_ONLY_FROM_VOLUME = {{ app.get('boot_only_from_volume', True) }}
+
+REST_API_REQUIRED_SETTINGS = ['OPENSTACK_HYPERVISOR_FEATURES',
+                             'LAUNCH_INSTANCE_DEFAULTS',
+                             'OPENSTACK_IMAGE_FORMATS']
+

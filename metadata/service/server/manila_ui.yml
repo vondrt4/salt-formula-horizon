@@ -1,0 +1,5 @@
+parameters:
+  horizon:
+    server:
+      manila_ui:
+        enabled: true

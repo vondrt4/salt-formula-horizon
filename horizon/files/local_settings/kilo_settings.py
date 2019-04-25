@@ -27,6 +27,7 @@ HORIZON_CONFIG = {
     'angular_modules': [],
     'js_files': [],
     'js_spec_files': [],
+    'password_autocomplete': 'on'
 }
 
 {%- if app.theme is defined %}
@@ -57,3 +58,4 @@ INSTALLED_APPS = (
 {% include "horizon/files/horizon_settings/_nova_settings.py" %}
 {% include "horizon/files/horizon_settings/_glance_settings.py" %}
 {% include "horizon/files/horizon_settings/_neutron_settings.py" %}
+{% include "horizon/files/horizon_settings/_websso_settings.py" %}

@@ -13,7 +13,7 @@
 # use of the decimal point, so valid options would be "2.0" or "3".
 {%- if app.api_versions is defined %}
 OPENSTACK_API_VERSIONS = {
-{%- for key, value in app.api_versions.iteritems() %}
+{%- for key, value in app.api_versions.iteritems() if (key, value) != ('identity', 2) %}
     "{{ key }}": {{ value }}{% if not loop.last %},{% endif %}
 {%- endfor %}
 }
@@ -33,7 +33,7 @@ OPENSTACK_API_VERSIONS = {
 # ]
 
 OPENSTACK_HOST = "{{ app.identity.host }}"
-{%- if app.get('api_versions', {}).identity is defined %}
+{%- if app.get('api_versions', {}).identity is defined and app.get('api_versions', {}).identity != 2 %}
 OPENSTACK_KEYSTONE_URL = "http{% if app.identity.encryption == 'ssl' %}s{% endif %}://%s:{{ app.identity.port }}/v{{ app.api_versions.identity }}" % OPENSTACK_HOST
 {%- else %}
 OPENSTACK_KEYSTONE_URL = "http{% if app.identity.encryption == 'ssl' %}s{% endif %}://%s:{{ app.identity.port }}/v2.0" % OPENSTACK_HOST
@@ -57,7 +57,7 @@ OPENSTACK_SSL_NO_VERIFY = True
 # OPENSTACK_ENDPOINT_TYPE specifies the endpoint type to use for the endpoints
 # in the Keystone service catalog. Use this setting when Horizon is running
 # external to the OpenStack environment. The default is 'publicURL'.
-OPENSTACK_ENDPOINT_TYPE = "publicURL"
+OPENSTACK_ENDPOINT_TYPE = "{{ app.identity.get('endpoint_type', 'publicURL') }}"
 
 # SECONDARY_ENDPOINT_TYPE specifies the fallback endpoint type to use in the
 # case that OPENSTACK_ENDPOINT_TYPE is not present in the endpoints

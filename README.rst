@@ -1,33 +1,24 @@
 
-=======
-Horizon 
-=======
+===============
+Horizon Formula
+===============
 
-OpenStack dashboard project
+Horizon is the canonical implementation of OpenStack’s Dashboard, which
+provides a web based user interface to OpenStack services including Nova,
+Swift, Keystone, etc.
 
-Sample pillars
+
+Sample Pillars
 ==============
 
-Packaged version of horizon
----------------------------
+Simplest horizon setup
 
-One horizon on server
+.. code-block:: yaml
 
-Simplest horizon setup with managed cloud-archive repo on ubuntu 12.04
-
-    linux:
-      system:
-        name: horizon
-        repo:
-         - cloudarchive-havana:
-            enabled: true
-            source: 'deb http://ubuntu-cloud.archive.canonical.com/ubuntu precise-updates/havana main'
-            pgpcheck: 0
     horizon:
       server:
-        manage_repo: true
         enabled: true
-        secret_key: MEGASECRET
+        secret_key: secret
         host:
           name: cloud.lab.cz
         cache:
@@ -35,15 +26,18 @@ Simplest horizon setup with managed cloud-archive repo on ubuntu 12.04
           host: '127.0.0.1'
           port: 11211
           prefix: 'CACHE_HORIZON'
+        api_versions:
+          identity: 2
         identity:
           engine: 'keystone'
           host: '127.0.0.1'
           port: 5000
-          api_version: 2
         mail:
           host: '127.0.0.1'
 
 Simple branded horizon
+
+.. code-block:: yaml
 
     horizon:
       server:
@@ -52,7 +46,58 @@ Simple branded horizon
         default_dashboard: 'admin'
         help_url: 'http://doc.domain.com'
 
+Horizon with policy files metadata. With source mine you can obtain real time policy file state from targeted node (OpenStack control node), provided you have policy file published to specified grain key. Source file will obtain static policy definition from formula files directory.
+
+.. code-block:: yaml
+
+    horizon:
+      server:
+        enabled: true
+        policy:
+          identity:
+            source: mine
+            host: ctl01.my-domain.local
+            name: keystone_policy.json
+            grain_name: keystone_policy
+            enabled: true
+          compute:
+            source: file
+            name: nova_policy.json
+            enabled: true
+          network:
+            source: file
+            name: neutron_policy.json
+            enabled: true
+          image:
+            source: file
+            name: glance_policy.json
+            enabled: true
+          volume:
+            source: file
+            name: cinder_policy.json
+            enabled: true
+          telemetry:
+            source: file
+            name: ceilometer_policy.json
+            enabled: true
+          orchestration:
+            source: file
+            name: heat_policy.json
+            enabled: true
+
+Horizon with enabled SSL security (when SSL is realised by proxy)
+
+.. code-block:: yaml
+
+    horizon:
+      server:
+        enabled: True
+        secure: True
+
+
 Horizon package setup with SSL
+
+.. code-block:: yaml
 
     horizon:
       server:
@@ -69,15 +114,30 @@ Horizon package setup with SSL
           host: '127.0.0.1'
           port: 11211
           prefix: 'CACHE_HORIZON'
+        api_versions:
+          identity: 2
         identity:
           engine: 'keystone'
           host: '127.0.0.1'
           port: 5000
-          api_version: 2
         mail:
           host: '127.0.0.1'
 
+Horizon with custom SESSION_ENGINE (default is "signed_cookies", valid options are: "signed_cookies", "cache", "file") and SESSION_TIMEOUT
+
+.. code-block:: yaml
+
+    horizon:
+      server:
+        enabled: True
+        secure: True
+        session:
+          engine: 'cache'
+          timeout: 43200
+
 Multi-regional horizon setup
+
+.. code-block:: yaml
 
     horizon:
       server:
@@ -89,11 +149,12 @@ Multi-regional horizon setup
           host: '127.0.0.1'
           port: 11211
           prefix: 'CACHE_HORIZON'
+        api_versions:
+          identity: 2
         identity:
           engine: 'keystone'
           host: '127.0.0.1'
           port: 5000
-          api_version: 2
         mail:
           host: '127.0.0.1'
         regions:
@@ -104,6 +165,8 @@ Multi-regional horizon setup
 
 Horizon setup with sensu plugin
 
+.. code-block:: yaml
+
     horizon:
       server:
         enabled: true
@@ -111,23 +174,17 @@ Horizon setup with sensu plugin
         sensu_api:
           host: localhost
           port: 4567
-        plugins:
-        - name: monitoring
-          app: horizon_monitoring
-          source:
-            type: git
-            address: git@repo1.robotice.cz:django/horizon-monitoring.git
-            rev: develop
-        - name: api-mask
-          app: api_mask
-          mask_url: 'custom-url.cz'
-          mask_protocol: 'http'
-          source:
-            type: git
-            address: git@repo1.robotice.cz:django/horizon-api-mask.git
-            rev: develop
+        plugin:
+          monitoring:
+            app: horizon_monitoring
+            source:
+              type: git
+              address: git@repo1.robotice.cz:django/horizon-monitoring.git
+              rev: develop
 
 Sensu multi API
+
+.. code-block:: yaml
 
     horizon:
       server:
@@ -141,7 +198,27 @@ Sensu multi API
             host: anotherhost
             port: 4567
 
+Horizon setup with jenkins plugin
+
+.. code-block:: yaml
+
+    horizon:
+      server:
+        enabled: true
+        version: juno
+        jenkins_api:
+          url: https://localhost:8080
+          user: admin
+          password: pwd
+        plugin:
+          jenkins:
+            app: horizon_jenkins
+            source:
+              type: pkg
+
 Horizon setup with billometer plugin
+
+.. code-block:: yaml
 
     horizon:
       server:
@@ -151,30 +228,34 @@ Horizon setup with billometer plugin
           host: localhost
           port: 9753
           api_version: 1
-        plugins:
-        - name: billing
-          app: horizon_billing
-          source:
-            type: git
-            address: git@repo1.robotice.cz:django/horizon-billing.git
-            rev: develop
+        plugin:
+          billing:
+            app: horizon_billing
+            source:
+              type: git
+              address: git@repo1.robotice.cz:django/horizon-billing.git
+              rev: develop
 
 Horizon setup with contrail plugin
+
+.. code-block:: yaml
 
     horizon:
       server:
         enabled: true
         version: icehouse
-        plugins:
-        - name: contrail
-          app: contrail_openstack_dashboard
-          override: true
-          source:
-            type: git
-            address: git@repo1.robotice.cz:django/horizon-contrail.git
-            rev: develop
+        plugin:
+          contrail:
+            app: contrail_openstack_dashboard
+            override: true
+            source:
+              type: git
+              address: git@repo1.robotice.cz:django/horizon-contrail.git
+              rev: develop
 
 Horizon setup with sentry log handler
+
+.. code-block:: yaml
 
     horizon:
       server:
@@ -189,6 +270,8 @@ Multisite with Git source
 -------------------------
 
 Simple Horizon setup from git repository
+
+.. code-block:: yaml
 
     horizon:
       server:
@@ -205,15 +288,18 @@ Simple Horizon setup from git repository
               host: '127.0.0.1'
               port: 11211
               prefix: 'CACHE_DEFAULT'
+            api_versions:
+              identity: 2
             identity:
               engine: 'keystone'
               host: '127.0.0.1'
               port: 5000
-              api_version: 2
             mail:
               host: '127.0.0.1'
 
 Themed multisite setup
+
+.. code-block:: yaml
 
     horizon:
       server:
@@ -243,11 +329,12 @@ Themed multisite setup
               host: '127.0.0.1'
               port: 11211
               prefix: 'CACHE_SITE1'
+            api_versions:
+              identity: 2
             identity:
               engine: 'keystone'
               host: '127.0.0.1'
               port: 5000
-              api_version: 2
             mail:
               host: '127.0.0.1'
           openstack2:
@@ -281,15 +368,18 @@ Themed multisite setup
               host: '127.0.0.1'
               port: 11211
               prefix: 'CACHE_SITE2'
+            api_versions:
+              identity: 3
             identity:
               engine: 'keystone'
               host: '127.0.0.1'
               port: 5000
-              api_version: 3
             mail:
               host: '127.0.0.1'
 
 API versions override
+
+.. code-block:: yaml
 
     horizon:
       server:
@@ -310,12 +400,14 @@ https://blueprints.launchpad.net/horizon/+spec/domain-based-rbac
 
 Control dashboard behaviour
 
+.. code-block:: yaml
+
     horizon:
       server:
         enabled: true
         app:
           openstack_dashboard_overrride:
-            secret_key: MEGASECRET1
+            secret_key: password
             dashboards:
               settings:
                 enabled: true
@@ -330,17 +422,57 @@ Control dashboard behaviour
               address: https://github.com/openstack/horizon.git
               rev: stable/juno
 
-Read more
-=========
+Enable WebSSO feature
+
+.. code-block:: yaml
+
+    horizon:
+      server:
+        enabled: true
+        websso:
+          login_url: "WEBROOT + 'auth/login/'"
+          logout_url: "WEBROOT + 'auth/logout/'"
+          websso_choices:
+            - saml2
+            - oidc
+
+
+More Information
+================
 
 * https://github.com/openstack/horizon
 * http://dijks.wordpress.com/2012/07/06/how-to-change-screen-resolution-of-novnc-client-in-openstack-essex-dashboard-nova-horizon/
 
 
-Things to improve
-=================
+Documentation and Bugs
+======================
 
-* ALLOWED_HOSTS - do not use * - introduce parameters
-* CACHES - configure caching engine - is it not allowed by default?
-* SESSION_ENGINE - change it from signed cookie to something else
-* policy files - look into these files and think of further configuration/parametrisation
+To learn how to install and update salt-formulas, consult the documentation
+available online at:
+
+    http://salt-formulas.readthedocs.io/
+
+In the unfortunate event that bugs are discovered, they should be reported to
+the appropriate issue tracker. Use Github issue tracker for specific salt
+formula:
+
+    https://github.com/salt-formulas/salt-formula-horizon/issues
+
+For feature requests, bug reports or blueprints affecting entire ecosystem,
+use Launchpad salt-formulas project:
+
+    https://launchpad.net/salt-formulas
+
+You can also join salt-formulas-users team and subscribe to mailing list:
+
+    https://launchpad.net/~salt-formulas-users
+
+Developers wishing to work on the salt-formulas projects should always base
+their work on master branch and submit pull request against specific formula.
+
+    https://github.com/salt-formulas/salt-formula-horizon
+
+Any questions or feedback is always welcome so feel free to join our IRC
+channel:
+
+    #salt-formulas @ irc.freenode.net

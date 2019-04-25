@@ -10,6 +10,14 @@ horizon_user:
   - system: True
   - home: /srv/horizon
 
+/var/log/horizon:
+  file.directory:
+  - mode: 770
+  - user: horizon
+  - group: root
+  - require:
+    - user: horizon_user
+
 /srv/horizon/sites:
   file.directory:
   - makedirs: true
@@ -17,7 +25,7 @@ horizon_user:
 {%- for app_name, app in server.app.iteritems() %}
 
 {%- if app.get('dashboard', 'openstack') in ['openstack', 'helpdesk'] %}
-{%- if app.get('version', 'juno') in ['juno', 'kilo', 'liberty'] %}
+{%- if app.get('version', 'juno') in ['juno', 'kilo', 'liberty', 'mitaka'] %}
 {%- set config_file = "/srv/horizon/sites/"+app_name+"/lib/python" + pillar.python.environment.get("version", "2.7") + "/site-packages/openstack_dashboard/local/local_settings.py" %}
 {%- else %}
 {%- set config_file = "/srv/horizon/sites/"+app_name+"/extra/openstack_dashboard/local/local_settings.py" %}
@@ -41,14 +49,17 @@ horizon_user:
   - require:
     - file: /srv/horizon/sites
     - pkg: horizon_packages
-    - pip: horizon_packages
 
 {{ app_name }}_{{ app.source.address }}:
   git.latest:
   - name: {{ app.source.address }}
   - target: /srv/horizon/sites/{{ app_name }}/extra
+  {%- if grains.saltversioninfo.0 > 2015 %}
+  - rev: HEAD
+  - branch: {{ app.source.revision }}
+  {%- else %}
   - rev: {{ app.source.revision }}
-  - depth: 1
+  {%- endif %}
   - submodules: True
   - require:
     - virtualenv: /srv/horizon/sites/{{ app_name }}
@@ -78,7 +89,7 @@ horizon_{{ app_name }}_logs:
   - require:
     - file: horizon_{{ app_name }}_dirs
 
-{%- if app.get('version', 'juno') in ['juno', 'kilo', 'helpdesk'] %}
+{%- if app.get('version', 'juno') in ['juno', 'kilo', 'helpdesk', 'liberty', 'mitaka'] %}
 
 horizon_setup_{{ app_name }}_horizon:
   cmd.run:
@@ -105,7 +116,7 @@ horizon_{{ app_name }}_config:
 
 {%- endif %}
 
-{%- if app.get('version', 'juno') in ['kilo', 'helpdesk'] %}
+{%- if app.get('version', 'juno') in ['kilo', 'helpdesk', 'liberty', 'mitaka'] %}
 
 /srv/horizon/sites/{{ app_name }}/static:
   file.symlink:
@@ -203,7 +214,7 @@ horizon_{{ app_name }}_config:
 
 {%- for dashboard_name, dashboard in app.get('dashboards', {}).iteritems() %}
 
-{%- if app.get('version', 'juno') in ['kilo', 'helpdesk'] %}
+{%- if app.get('version', 'juno') in ['kilo', 'helpdesk', 'liberty', 'mitaka'] %}
 
 horizon_{{ app_name }}_{{ dashboard_name }}_config:
   file.managed:
@@ -226,7 +237,7 @@ horizon_{{ app_name }}_{{ dashboard_name }}_config:
 
 {%- for plugin_name, plugin in app.plugin.iteritems() %}
 
-{%- if app.get('version', 'juno') in ['kilo', 'helpdesk'] %}
+{%- if app.get('version', 'juno') in ['kilo', 'helpdesk', 'liberty', 'mitaka'] %}
 
 horizon_{{ app_name }}_{{ plugin_name }}_config:
   file.managed:
@@ -248,14 +259,19 @@ horizon_{{ app_name }}_{{ plugin_name }}_config:
   {{ plugin.source.engine }}.latest:
   - name: {{ plugin.source.address }}
   - target: /srv/horizon/sites/{{ app_name }}/plugins/{{ plugin_name }}
+  {%- if grains.saltversioninfo.0 > 2015 %}
+  - rev: HEAD
+  - branch: {{ plugin.source.revision }}
+  {%- else %}
   - rev: {{ plugin.source.revision }}
+  {%- endif %}
   - submodules: True
   - require:
     - file: /srv/horizon/sites/{{ app_name }}/plugins
   - require_in:
     - cmd: horizon_setup_{{ app_name }}
 
-{%- if plugin_name == "contrail" and app.get("version", "juno") in ["juno", "kilo", 'helpdesk'] %}
+{%- if plugin_name == "contrail" and app.get("version", "juno") in ["juno", "kilo", 'helpdesk', 'liberty', 'mitaka'] %}
 
 fix_contrail_{{ app_name }}:
   cmd.run:
@@ -277,6 +293,24 @@ fix_contrail_{{ app_name }}:
 /srv/horizon/sites/{{ app_name }}/local/lib/python2.7/site-packages/openstack_dashboard/static/themes/{{ plugin.theme_name }}:
   file.symlink:
   - target: /srv/horizon/sites/{{ app_name }}/plugins/{{ plugin_name }}/horizon_theme/dashboards/theme/static/themes/{{ plugin.theme_name }}
+  - user: root
+  - group: root
+  - require:
+    - git: {{ app_name }}_{{ app.source.address }}
+
+{%- elif plugin_name == "horizon_theme" and app.get("version", "liberty") in ['liberty', 'mitaka'] %}
+
+/srv/horizon/sites/{{ app_name }}/local/lib/python2.7/site-packages/openstack_dashboard/dashboards/theme:
+  file.symlink:
+  - target: /srv/horizon/sites/{{ app_name }}/plugins/{{ plugin_name }}/horizon_theme/dashboards/theme
+  - user: root
+  - group: root
+  - require:
+    - git: {{ app_name }}_{{ app.source.address }}
+
+/srv/horizon/sites/{{ app_name }}/local/lib/python2.7/site-packages/openstack_dashboard/themes/{{ plugin.theme_name }}:
+  file.symlink:
+  - target: /srv/horizon/sites/{{ app_name }}/plugins/{{ plugin_name }}/horizon_theme/static/{{ plugin.theme_name }}
   - user: root
   - group: root
   - require:
